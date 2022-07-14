@@ -1,9 +1,18 @@
-/**
- * @format
- */
+import "react-native-gesture-handler";
+import React from "react";
+import {AppRegistry} from "react-native";
+import {NavigationContainer} from "@react-navigation/native";
+import {SafeAreaProvider} from "react-native-safe-area-context";
 
-import {AppRegistry} from 'react-native';
-import App from './App';
-import {name as appName} from './app.json';
+import App from "./src";
+import {name as appName} from "./app.json";
 
-AppRegistry.registerComponent(appName, () => App);
+const AppWithRouter = () => (
+  <SafeAreaProvider>
+    <NavigationContainer>
+      <App />
+    </NavigationContainer>
+  </SafeAreaProvider>
+);
+
+AppRegistry.registerComponent(appName, () => AppWithRouter);
