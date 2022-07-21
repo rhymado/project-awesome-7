@@ -1,6 +1,11 @@
-import {View, Text, Pressable, Modal} from "react-native";
+import {View, Text, Pressable, Modal, TextInput} from "react-native";
 import React, {useState, useMemo, useEffect} from "react";
 import {EventEmitter} from "events";
+import {
+  sendLocalNotification,
+  sendScheduledNotification,
+} from "../../helpers/notification";
+import {Button} from "@rneui/themed";
 
 import styles from "./styles";
 
@@ -20,6 +25,7 @@ const Profile = ({navigation}) => {
   const [square, setSquare] = useState(0);
   const [isModalShown, setIsModalShown] = useState(false);
   const [isLogoutAllowed, setIsLogoutAllowed] = useState(false);
+  const [date, setDate] = useState(new Date(Date.now()));
   const onSquareChosen = id => {
     myEvents.emit("square", id);
   };
@@ -92,6 +98,36 @@ const Profile = ({navigation}) => {
             onSquareChosen={onSquareChosen}
           />
         </View>
+        <Button
+          buttonStyle={styles.loginBtn}
+          onPress={() => {
+            sendLocalNotification("Local", "This is Local Notification");
+          }}>
+          <Text style={{color: "black", fontWeight: "700"}}>
+            Local Notification
+          </Text>
+        </Button>
+        <Text>Delay</Text>
+        <TextInput
+          keyboardType="numeric"
+          onChangeText={text =>
+            setDate(new Date(Date.now() + Number(text) * 1000))
+          }
+          style={{borderWidth: 2, borderColor: "white", padding: 5}}
+        />
+        <Button
+          buttonStyle={styles.loginBtn}
+          onPress={() => {
+            sendScheduledNotification(
+              "Scheduled",
+              "This is Scheduled Notification",
+              date,
+            );
+          }}>
+          <Text style={{color: "black", fontWeight: "700"}}>
+            Scheduled Notification
+          </Text>
+        </Button>
       </View>
       <Modal
         animationType="slide"

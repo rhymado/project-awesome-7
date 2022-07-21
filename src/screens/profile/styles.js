@@ -3,6 +3,7 @@ import {StyleSheet} from "react-native";
 export default StyleSheet.create({
   container: {
     backgroundColor: "black",
+    flex: 1,
   },
   text: {
     fontSize: 36,
@@ -63,5 +64,14 @@ export default StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center",
+  },
+  loginBtn: {
+    borderColor: "white",
+    borderWidth: 2,
+    padding: 5,
+    marginVertical: 10,
+    borderRadius: 10,
+    alignItems: "center",
+    backgroundColor: "#f1a9f1",
   },
 });
