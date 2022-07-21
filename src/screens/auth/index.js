@@ -1,17 +1,36 @@
 import {View, Text, TextInput, Pressable} from "react-native";
-import React, {useState} from "react";
+import React, {useState, useEffect, useMemo} from "react";
 import {Button} from "@rneui/themed";
+import {EventEmitter} from "events";
 
 import styles from "./styles";
 import {login} from "../../modules/auth/login";
 
 const Auth = ({navigation}) => {
+  const myEvent = useMemo(() => new EventEmitter(), []);
   const [input, setInput] = useState({
     email: "",
     password: "",
   });
   const [isPasswordShown, setIsPasswordShown] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  // setup listener event
+  useEffect(() => {
+    // didmount
+    const onLogin = body => {
+      console.log(body);
+    };
+    // const onLogin2 = () => {
+    //   console.log("event login 2");
+    // };
+    myEvent.on("login", onLogin);
+    // myEvent.on("login", onLogin2);
+    // will unmount
+    return () => {
+      myEvent.off("login", onLogin);
+      // myEvent.off("login", onLogin2);
+    };
+  }, [myEvent]);
   return (
     <View style={styles.container}>
       <View style={styles.section}>
@@ -40,6 +59,7 @@ const Auth = ({navigation}) => {
         buttonStyle={styles.loginBtn}
         onPress={() => {
           setIsLoading(true);
+          myEvent.emit("login", {email: input.email, pass: input.password});
           login(
             input.email,
             input.password,
