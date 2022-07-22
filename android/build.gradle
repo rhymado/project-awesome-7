@@ -7,7 +7,7 @@ buildscript {
         buildToolsVersion = "31.0.0"
         minSdkVersion = 21
         compileSdkVersion = 31
-        targetSdkVersion = 30
+        targetSdkVersion = 23
         googlePlayServicesVersion = "+" // default: "+"
         firebaseMessagingVersion = "21.1.0" // default: "21.1.0"
         // Other settings
@@ -21,13 +21,15 @@ buildscript {
         }
     }
     repositories {
-        google()
+        google()  // Google's Maven repository
         mavenCentral()
     }
     dependencies {
         classpath("com.android.tools.build:gradle:7.1.1")
         classpath("com.facebook.react:react-native-gradle-plugin")
         classpath("de.undercouch:gradle-download-task:5.0.1")
+        // remote notification
+        classpath('com.google.gms:google-services:4.3.3')
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -50,7 +52,7 @@ allprojects {
                 excludeGroup "com.facebook.react"
             }
         }
-        google()
+        google()  // Google's Maven repository
         maven { url 'https://www.jitpack.io' }
     }
 }
